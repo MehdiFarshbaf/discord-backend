@@ -10,6 +10,8 @@ import {headers} from "./middlewares/headers.js";
 
 // routes
 import authRoutes from "./routes/authRoutes.js";
+import {registerSocketServer} from "./socketServer.js";
+import { createServer } from 'node:http';
 
 // load config
 dotenv.config()
@@ -26,6 +28,7 @@ app.use(bodyParser.urlencoded({extended: false}))
 // parse application/json
 app.use(express.json())
 app.use(headers)
+
 //static folder
 app.use(express.static("public"))
 
@@ -35,8 +38,11 @@ connectDB()
 // Routes
 app.use("/api/auth", authRoutes)
 
+const server = createServer(app)
+registerSocketServer(server)
+
 // error handler
 app.use(errorHandler)
 
-const PORT = process.env.PORT || 5000
-app.listen(PORT, () => console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`))
+const PORT = process.env.PORT || 4000
+server.listen(PORT, () => console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`))
