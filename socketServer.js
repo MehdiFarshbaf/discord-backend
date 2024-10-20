@@ -12,9 +12,7 @@ export const registerSocketServer = (server) => {
             methods: ["GET", "POST"]
         }
     })
-    socketIo.use((socket, next) => {
-        verifyTokenSocket(socket, next)
-    })
+    socketIo.use(verifyTokenSocket)
 
     socketIo.on("connection", (socket) => {
         console.log('user connected')

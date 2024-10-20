@@ -1,4 +1,5 @@
 import express from 'express'
+import {createServer} from 'node:http';
 import dotenv from 'dotenv'
 import cors from 'cors'
 import bodyParser from 'body-parser'
@@ -10,8 +11,9 @@ import {headers} from "./middlewares/headers.js";
 
 // routes
 import authRoutes from "./routes/authRoutes.js";
+import friendInvitationRoutes from "./routes/friendInvitationRoutes.js";
+
 import {registerSocketServer} from "./socketServer.js";
-import { createServer } from 'node:http';
 
 // load config
 dotenv.config()
@@ -37,6 +39,7 @@ connectDB()
 
 // Routes
 app.use("/api/auth", authRoutes)
+app.use("/api/friend-invitation", friendInvitationRoutes)
 
 const server = createServer(app)
 registerSocketServer(server)
