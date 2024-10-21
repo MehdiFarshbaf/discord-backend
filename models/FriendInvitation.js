@@ -2,11 +2,11 @@ import mongoose from "mongoose";
 
 const invitationSchema = new mongoose.Schema({
     senderId: {
-        type: mongoose.Schema.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: "User"
     },
-    reviverId: {
-        type: mongoose.Schema.ObjectId,
+    receiverId: {
+        type: mongoose.Schema.Types.ObjectId,
         ref: "User"
     }
 }, {

@@ -16,7 +16,11 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: "",
         required: [true, "کلمه کاربری الزامی است."]
-    }
+    },
+    friends: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
+    }]
 }, {
     timestamps: true,
     toJSON: {virtuals: true},
