@@ -1,12 +1,13 @@
 import {sendErrorResponse} from "../helpers/responses.js";
 import User from "../models/User.js";
 import FriendInvitation from "../models/FriendInvitation.js";
+import {updateFriendPendingInvitations} from "../socketHandlers/update/friends.js";
 
 export const postInvitation = async (req, res, next) => {
 
     const {targetEmailAddress} = req.body
     const {userId, email} = req.user
-    console.log("email",email)
+    console.log("email", email)
     try {
         if (email.toLowerCase() === targetEmailAddress.toLowerCase()) {
             sendErrorResponse("Sorry, you cannot become friend with yourself", 409)
@@ -27,6 +28,8 @@ export const postInvitation = async (req, res, next) => {
         // create new invitation in database
 
         await FriendInvitation.create({senderId: userId, receiverId: targetUser._id})
+
+        updateFriendPendingInvitations(targetUser._id.toString())
 
         res.status(200).json({
             success: true,

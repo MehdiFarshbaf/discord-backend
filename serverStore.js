@@ -1,7 +1,18 @@
 const connectedUsers = new Map()
 
-export const addNewConnectedUser = ({ socketId, userId }) => {
-    connectedUsers.set(socketId, { userId })
+
+let io = null
+
+export const setSocketServerInstance = (ioInstance) => {
+    io = ioInstance
+}
+
+export const getSocketServerInstance = () => {
+    return io
+}
+
+export const addNewConnectedUser = ({socketId, userId}) => {
+    connectedUsers.set(socketId, {userId})
     console.log("list : ", connectedUsers)
 }
 
@@ -11,4 +22,15 @@ export const removeConnectedUser = (socketId) => {
         console.log("remove from list")
         console.log("list after delete : ", connectedUsers)
     }
+}
+
+// فقط از طریق سوکت ای دی میتوان ایمیت کرد
+export const getActiveConnections = (userId) => {
+    const activeConnections = []
+    connectedUsers.forEach((value, key) => {
+        if (value.userId === userId) {
+            activeConnections.push(key)
+        }
+    })
+    return activeConnections
 }
