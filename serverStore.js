@@ -34,3 +34,11 @@ export const getActiveConnections = (userId) => {
     })
     return activeConnections
 }
+
+export const getOnlineUsers = () => {
+    const onlineUsers = []
+    connectedUsers.forEach((value, key) => {
+        onlineUsers.push({socketId: key, userId: value.userId})
+    })
+    return onlineUsers
+}
